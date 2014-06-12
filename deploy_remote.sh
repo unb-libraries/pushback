@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -e
+
+# Drush
+command -v drush >/dev/null 2>&1 || { echo "This script requires drush but it is not globally installed.  Aborting." >&2; exit 1; }
+
+# The directory this script is in.
+REAL_PATH=`readlink -f "${BASH_SOURCE[0]}"`
+SCRIPT_DIR=`dirname "$REAL_PATH"`
+
+usage() {
+  cat $SCRIPT_DIR/README.md |
+  # Remove ticks and stars.
+  sed -e "s/[\`|\*]//g"
+}
+
+while getopts “:u:” OPTION; do
+  case $OPTION in
+    u)
+      URI_STRING=$OPTARG
+      ;;
+  esac
+done
+
+COMMITID=`echo "$GIT_COMMIT" | cut -c1-8`
+URI_SLUG=`echo "$URI_STRING" | tr . _`
+SIXTEEN_CHAR_SLUG=`echo "${COMMITID}_${URI_SLUG}" | cut -c1-16`
+DOCROOT="$WORKSPACE/$SIXTEEN_CHAR_SLUG"
+
+if [[ -z $WORKSPACE ]]; then
+  echo "This script must be executed from within a proper Jenkins job."
+  exit 1
+fi
+
+# Remove Previous Builds of This Hash
+rm -rf "$DOCROOT"
+
+# Put drush in verbose mode, if requested, and include our script dir so we have
+# access to our custom drush commands.
+DRUSH="drush --yes --verbose --include=$SCRIPT_DIR --alias-path=$WORKSPACE"
+
+# Check to make sure drush is working properly, and can access the target site deploy.
+$DRUSH status @$URI_STRING --quiet
+
+# Build Site
+$DRUSH make "$URI_SLUG.makefile" --no-core --contrib-destination="sites/$URI_STRING" --no-cache "$DOCROOT"
+
+# Copy Modules, Themes, Libraries
+cd "$DOCROOT"
+for CONTRIBPATH in modules themes libraries
+do
+  $DRUSH rsync "sites/$URI_STRING/$CONTRIBPATH" @$URI_STRING:"sites/$URI_STRING" --delete --omit-dir-times --no-perms
+done
+
+# Clear Cache
+$DRUSH cc all @$URI_STRING
