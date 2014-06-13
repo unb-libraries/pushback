@@ -46,7 +46,7 @@ fi
 
 # Put drush in verbose mode, if requested, and include our script dir so we have
 # access to our custom drush commands.
-DRUSH="drush --yes --verbose --include=$SCRIPT_DIR --alias-path=$WORKSPACE"
+DRUSH="drush --yes --verbose --include=$WORKSPACE/drush-scripts --alias-path=$WORKSPACE/aliases"
 
 # The docroot of the new Drupal directory.
 DOCROOT=$WEBROOT/$URI_STRING/$SIXTEEN_CHAR_SLUG
@@ -68,7 +68,7 @@ fi
 $DRUSH status @$URI_STRING --quiet
 
 # Build Site
-$DRUSH make $URI_SLUG.makefile $DESTINATION $DOCROOT
+$DRUSH make make/$URI_SLUG.makefile $DESTINATION $DOCROOT
 
 # Create Database And Grant Privileges
 DATABASE_HOST="localhost"
@@ -82,6 +82,7 @@ mysql -u root -p$MYSQL_R_PW -e "GRANT ALL PRIVILEGES ON $DATABASE_NAME.* TO '$DA
 mysql -u root -p$MYSQL_R_PW -e "FLUSH PRIVILEGES"
 
 # Modify and copy settings
+cd $WORKSPACE/settings
 sed -i "s/'database' => '.*',/'database' => '$DATABASE_NAME',/g" settings.php
 sed -i "s/'username' => '.*',/'username' => '$DATABASE_USER',/g" settings.php
 sed -i "s/'password' => '.*',/'password' => '$DATABASE_PASSWORD',/g" settings.php
@@ -90,9 +91,11 @@ rsync settings.php $DOCROOT/sites/default
 
 # Copy install profile
 mkdir $DOCROOT/profiles/$URI_SLUG
+cd $WORKSPACE/profile
 rsync $URI_SLUG* $DOCROOT/profiles/$URI_SLUG
 
 # Copy Aliases File
+cd $WORKSPACE/aliases
 rsync *aliases.drushrc.php $DOCROOT
 
 # Install Site

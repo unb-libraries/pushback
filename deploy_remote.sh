@@ -37,13 +37,13 @@ rm -rf "$DOCROOT"
 
 # Put drush in verbose mode, if requested, and include our script dir so we have
 # access to our custom drush commands.
-DRUSH="drush --yes --verbose --include=$SCRIPT_DIR --alias-path=$WORKSPACE"
+DRUSH="drush --yes --verbose --include=$WORKSPACE/drush-scripts --alias-path=$WORKSPACE/aliases"
 
 # Check to make sure drush is working properly, and can access the target site deploy.
 $DRUSH status @$URI_STRING --quiet
 
 # Build Site
-$DRUSH make "$URI_SLUG.makefile" --no-core --contrib-destination="sites/$URI_STRING" --no-cache "$DOCROOT"
+$DRUSH make "make/$URI_SLUG.makefile" --no-core --contrib-destination="sites/$URI_STRING" --no-cache "$DOCROOT"
 
 # Copy Modules, Themes, Libraries
 cd "$DOCROOT"
