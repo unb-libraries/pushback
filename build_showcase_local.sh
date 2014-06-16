@@ -29,9 +29,12 @@ while getopts “:u:p:i:” OPTION; do
   esac
 done
 
-COMMITID=`echo $GIT_COMMIT | cut -c1-8`
+if [[ -z $WEBROOT ]]; then
+  $GITHUBPRID="1"
+fi
+
 URI_SLUG=`echo "$URI_STRING" | tr . _`
-SIXTEEN_CHAR_SLUG=`echo ${COMMITID}_${GITHUBPRID}_${URI_SLUG} | cut -c1-16`
+SIXTEEN_CHAR_SLUG=`echo pull_${GITHUBPRID}_${URI_SLUG} | cut -c1-16`
 
 # If we're missing some of these variables, show the usage and throw an error.
 if [[ -z $WEBROOT ]] || [[ -z $COMMITID ]]; then
@@ -122,3 +125,12 @@ $DRUSH $DESTINATION registry-rebuild
 
 # Clear Cache
 $DRUSH $DESTINATION cc all 
+
+# Build Body of Message
+BODYOFMESSAGE="This Pull Request (https://github.com/unb-libraries/build-profile-$URI_STRING/pull/$GITHUBPRID) Has Been Built successfully!
+
+A live version is available at http://builds.lib.unb.ca/$URI_STRING/$SIXTEEN_CHAR_SLUG/
+To tear this request down, visit <unimplemented>"
+
+# Complete! Post Message
+/opt/github-drupal-deploy/github_pull_comment.sh -a "unb-libraries/build-profile-$URI_STRING" -i "$GITHUBPRID" -b "$BODYOFMESSAGE" <<< "$GITHUB_POST_MESSAGE_KEY"

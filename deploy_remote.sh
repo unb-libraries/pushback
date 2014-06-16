@@ -14,11 +14,16 @@ usage() {
   sed -e "s/[\`|\*]//g"
 }
 
-while getopts “:u:” OPTION; do
+while getopts “:u:t:l:” OPTION; do
   case $OPTION in
     u)
       URI_STRING=$OPTARG
       ;;
+    t)
+      SNS_TOPIC=$OPTARG
+      ;;
+    l)
+      URI_TO_TEST=$OPTARG
   esac
 done
 
@@ -43,7 +48,8 @@ DRUSH="drush --yes --verbose --include=$WORKSPACE/drush-scripts --alias-path=$WO
 $DRUSH status @$URI_STRING --quiet
 
 # Build Site
-$DRUSH make "make/$URI_SLUG.makefile" --no-core --contrib-destination="sites/$URI_STRING" --no-cache "$DOCROOT"
+cd "$WORKSPACE/make"
+$DRUSH make "$URI_SLUG.makefile" --no-core --contrib-destination="sites/$URI_STRING" --no-cache "$DOCROOT"
 
 # Copy Modules, Themes, Libraries
 cd "$DOCROOT"
@@ -54,3 +60,11 @@ done
 
 # Clear Cache
 $DRUSH cc all @$URI_STRING
+
+# Run Casper Tests
+cd "$WORKSPACE/tests"
+find . -type f -print0 | xargs -0 sed -i "s|{{URI_TO_TEST}}|$URI_TO_TEST|g"
+casperjs --no-colors --direct test *.js
+
+# Notify on Success
+/opt/github-drupal-deploy/sns_drupal_build.sh -b "$BUILD_USER" -t "$SNS_TOPIC" -u "$URI_STRING" -s "SUCCESS"
