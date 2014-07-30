@@ -55,7 +55,7 @@ $DRUSH make "$URI_SLUG.makefile" --no-core --contrib-destination="sites/$URI_STR
 cd "$DOCROOT"
 for CONTRIBPATH in modules themes libraries
 do
-  if [ -d "$WORKSPACE/make/sites/$URI_STRING/$CONTRIBPATH" ]; then
+  if [ -d "$DOCROOT/sites/$URI_STRING/$CONTRIBPATH" ]; then
     $DRUSH rsync "sites/$URI_STRING/$CONTRIBPATH" @$URI_STRING:"sites/$URI_STRING" --delete --omit-dir-times --no-perms
   fi
 done
