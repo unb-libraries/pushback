@@ -55,7 +55,9 @@ $DRUSH make "$URI_SLUG.makefile" --no-core --contrib-destination="sites/$URI_STR
 cd "$DOCROOT"
 for CONTRIBPATH in modules themes libraries
 do
-  $DRUSH rsync "sites/$URI_STRING/$CONTRIBPATH" @$URI_STRING:"sites/$URI_STRING" --delete --omit-dir-times --no-perms
+  if [ -d "$DOCROOT/sites/$URI_STRING/$CONTRIBPATH" ]; then
+    $DRUSH rsync "sites/$URI_STRING/$CONTRIBPATH" @$URI_STRING:"sites/$URI_STRING" --delete --omit-dir-times --no-perms
+  fi
 done
 
 # Clear Cache
@@ -67,4 +69,4 @@ find . -type f -print0 | xargs -0 sed -i "s|{{URI_TO_TEST}}|$URI_TO_TEST|g"
 casperjs --no-colors --direct test *.js
 
 # Notify on Success
-/opt/github-drupal-deploy/sns_drupal_build.sh -b "$BUILD_USER" -t "$SNS_TOPIC" -u "$URI_STRING" -s "SUCCESS"
+/var/opt/github-drupal-deploy/sns_drupal_build.sh -b "$BUILD_USER" -t "$SNS_TOPIC" -u "$URI_STRING" -s "SUCCESS"

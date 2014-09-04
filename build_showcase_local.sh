@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-source /opt/github-drupal-deploy/github-drupal-deploy.cfg
+source /var/opt/github-drupal-deploy/github-drupal-deploy.cfg
 
 # Drush
 command -v drush >/dev/null 2>&1 || { echo "This script requires drush but it is not globally installed.  Aborting." >&2; exit 1; }
@@ -133,4 +133,4 @@ A live version is available at http://builds.lib.unb.ca/$URI_STRING/$SIXTEEN_CHA
 To tear this request down, visit <unimplemented>"
 
 # Complete! Post Message
-/opt/github-drupal-deploy/github_pull_comment.sh -a "unb-libraries/build-profile-$URI_STRING" -i "$GITHUBPRID" -b "$BODYOFMESSAGE" <<< "$GITHUB_POST_MESSAGE_KEY"
+/var/opt/github-drupal-deploy/github_pull_comment.sh -a "unb-libraries/build-profile-$URI_STRING" -i "$GITHUBPRID" -b "$BODYOFMESSAGE" <<< "$GITHUB_POST_MESSAGE_KEY"
