@@ -59,7 +59,7 @@ cp -rp "$WORKSPACE/profiles/*" "$DOCROOT/profiles/"
 
 # Copy Tree 
 cd "$DOCROOT"
-$DRUSH rsync @self @$URI_STRING --delete --omit-dir-times --no-perms --exclude-files --include-conf
+$DRUSH rsync @self @$URI_STRING --delete --omit-dir-times --no-perms --include-conf --exclude=sites/default/files/
 
 # Clear Cache
 $DRUSH cc all @$URI_STRING
