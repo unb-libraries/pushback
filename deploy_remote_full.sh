@@ -54,6 +54,9 @@ $DRUSH make "$URI_SLUG.makefile" --contrib-destination="sites/all" --no-cache "$
 # Copy settings.php into tree before deployment
 cp -p "$WORKSPACE/settings/settings.php" "$DOCROOT/sites/default"
 
+# Copy profiles into tree before deployment
+cp -rp "$WORKSPACE/profiles/*" "$DOCROOT/profiles/"
+
 # Copy Tree 
 cd "$DOCROOT"
 $DRUSH rsync @self @$URI_STRING --delete --omit-dir-times --no-perms --exclude-files --include-conf
