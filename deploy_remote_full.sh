@@ -51,6 +51,9 @@ $DRUSH status @$URI_STRING --quiet
 cd "$WORKSPACE/make"
 $DRUSH make "$URI_SLUG.makefile" --contrib-destination="sites/all" --no-cache "$DOCROOT"
 
+# Copy settings.php into tree before deployment
+cp "$WORKSPACE/settings/settings.php" "$DOCROOT/sites/default"
+
 # Copy Tree 
 cd "$DOCROOT"
 $DRUSH rsync @self @$URI_STRING --delete --omit-dir-times --no-perms --exclude-files --include-conf
