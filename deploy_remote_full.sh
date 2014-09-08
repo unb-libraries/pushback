@@ -52,7 +52,7 @@ cd "$WORKSPACE/make"
 $DRUSH make "$URI_SLUG.makefile" --contrib-destination="sites/all" --no-cache "$DOCROOT"
 
 # Copy settings.php into tree before deployment
-cp "$WORKSPACE/settings/settings.php" "$DOCROOT/sites/default"
+cp -p "$WORKSPACE/settings/settings.php" "$DOCROOT/sites/default"
 
 # Copy Tree 
 cd "$DOCROOT"
