@@ -21,6 +21,7 @@ while getopts “:u:t:” OPTION; do
       ;;
     t)
       SNS_TOPIC=$OPTARG
+      ;;
   esac
 done
 
