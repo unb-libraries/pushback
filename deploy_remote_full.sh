@@ -64,6 +64,25 @@ $DRUSH rsync @self @$URI_STRING --delete --omit-dir-times --chmod=o+rx --perms -
 # Clear Cache
 $DRUSH cc all @$URI_STRING
 
+# Ensure anonymous users do not get a registration form
+$DRUSH vset user_register 0 @$URI_STRING
+
+# Enable Preprocessing for JS/CSS
+$DRUSH vset preprocess_css 1 @$URI_STRING
+$DRUSH vset preprocess_js 1 @$URI_STRING
+
+# Enable anonmymous Caching
+$DRUSH vset cache 1 @$URI_STRING
+
+# Cache blocks for Anonymous
+$DRUSH vset block_cache 1 @$URI_STRING
+
+# Turn on page compression
+$DRUSH vset page_compression 1 @$URI_STRING
+
+# Do not display errors to users
+$DRUSH vset error_level 0 @$URI_STRING
+
 # Run Casper Tests
 if test -n "$(find $WORKSPACE/tests -maxdepth 1 -name '*.js' -print -quit)"
 then
