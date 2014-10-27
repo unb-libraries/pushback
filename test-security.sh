@@ -35,9 +35,6 @@ if [[ -z $WORKSPACE ]]; then
   exit 1
 fi
 
-# Remove Previous Builds of This Hash
-rm -rf "$DOCROOT"
-
 # Put drush in verbose mode, if requested, and include our script dir so we have
 # access to our custom drush commands.
 DRUSH="drush --yes --verbose --include=$WORKSPACE/drush-scripts --alias-path=$WORKSPACE/aliases"
