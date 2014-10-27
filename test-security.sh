@@ -43,29 +43,29 @@ DRUSH="drush --yes --verbose --include=$WORKSPACE/drush-scripts --alias-path=$WO
 $DRUSH status @$URI_STRING --quiet
 
 # Site-Audit
-$DRUSH dl site_audit
-$DRUSH cc drush
-$DRUSH cc all
-$DRUSH audit_best_practices
-$DRUSH audit_content
-$DRUSH audit_cron
-$DRUSH audit_database
-$DRUSH audit_security
-$DRUSH audit_status
-$DRUSH audit_users
-
-# Security-Review
-$DRUSH dl security_review
-$DRUSH en security_review
-$DRUSH cc drush
-$DRUSH cc all
-$DRUSH security-review
+$DRUSH @$URI_STRING dl site_audit
+$DRUSH @$URI_STRING cc drush
+$DRUSH @$URI_STRING cc all
+$DRUSH @$URI_STRING audit_best_practices
+$DRUSH @$URI_STRING audit_content
+$DRUSH @$URI_STRING audit_cron
+$DRUSH @$URI_STRING audit_database
+$DRUSH @$URI_STRING audit_security
+$DRUSH @$URI_STRING audit_status
+$DRUSH @$URI_STRING audit_users
 
 # DrupalGeddon on server
-$DRUSH drush dl drupalgeddon
-$DRUSH cc drush
-$DRUSH cc allmail
-$DRUSH drupalgeddon-test
+$DRUSH @$URI_STRING dl drupalgeddon
+$DRUSH @$URI_STRING cc drush
+$DRUSH @$URI_STRING cc all
+$DRUSH @$URI_STRING drupalgeddon-test
+
+# Security-Review
+$DRUSH @$URI_STRING dl security_review
+$DRUSH @$URI_STRING en security_review
+$DRUSH @$URI_STRING cc drush
+$DRUSH @$URI_STRING cc all
+$DRUSH @$URI_STRING security-review
 
 # Test files directory for PHP files
 
