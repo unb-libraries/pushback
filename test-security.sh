@@ -42,32 +42,30 @@ DRUSH="drush --yes --verbose --include=$WORKSPACE/drush-scripts --alias-path=$WO
 # Check to make sure drush is working properly, and can access the target site deploy.
 $DRUSH status @$URI_STRING --quiet
 
-# Drupalgeddon
-rm -rf ~/.drush/drupalgeddon
-drush dl --yes drupalgeddon
-rm -rf ~/.drush/cache
-drush cc all --yes
-drush drupalgeddon-test
-
 # Site-Audit
-rm -rf ~/.drush/site_audit
-drush dl --yes site_audit
-rm -rf ~/.drush/cache
-drush cc all --yes
-drush audit_best_practices
-drush audit_content
-drush audit_cron
-drush audit_database
-drush audit_security
-drush audit_status
-drush audit_users
+$DRUSH dl site_audit
+$DRUSH cc drush
+$DRUSH cc all
+$DRUSH audit_best_practices
+$DRUSH audit_content
+$DRUSH audit_cron
+$DRUSH audit_database
+$DRUSH audit_security
+$DRUSH audit_status
+$DRUSH audit_users
 
 # Security-Review
-drush dl --yes security_review
-drush en --yes security_review
-rm -rf ~/.drush/cache
-drush cc all --yes
-drush security-review
+$DRUSH dl security_review
+$DRUSH en security_review
+$DRUSH cc drush
+$DRUSH cc all
+$DRUSH security-review
+
+# DrupalGeddon on server
+$DRUSH drush dl drupalgeddon
+$DRUSH cc drush
+$DRUSH cc allmail
+$DRUSH drupalgeddon-test
 
 # Test files directory for PHP files
 
