@@ -62,7 +62,7 @@ cd "$DOCROOT"
 $DRUSH rsync @self @$URI_STRING --delete --omit-dir-times --chmod=o+rx --perms --include-conf --exclude=sites/default/files/
 
 # Copy .htaccess to files dir
-$DRUSH rsync "/var/opt/github-drupal-deploy/files.htaccess" @$URI_STRING:%files/.htaccess -omit-dir-times --chmod=og-w --perms
+$DRUSH rsync "/var/opt/github-drupal-deploy/files.htaccess" @$URI_STRING:%files/.htaccess --omit-dir-times --chmod=og-w --perms
 
 # Clear Cache
 $DRUSH cc all @$URI_STRING
