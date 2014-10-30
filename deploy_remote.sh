@@ -51,12 +51,15 @@ $DRUSH status @$URI_STRING --quiet
 cd "$WORKSPACE/make"
 $DRUSH make "$URI_SLUG.makefile" --no-core --contrib-destination="sites/$URI_STRING" --no-cache "$DOCROOT"
 
+# Copy settings.php into tree before deployment
+cp -p "$WORKSPACE/settings/settings.php" "$DOCROOT/sites/$URI_STRING"
+
 # Copy Modules, Themes, Libraries
 cd "$DOCROOT"
-for CONTRIBPATH in modules themes libraries
+for CONTRIBPATH in modules themes libraries settings.php
 do
   if [ -d "$DOCROOT/sites/$URI_STRING/$CONTRIBPATH" ]; then
-    $DRUSH rsync "sites/$URI_STRING/$CONTRIBPATH" @$URI_STRING:"sites/$URI_STRING" --delete --omit-dir-times --no-perms
+    $DRUSH rsync "sites/$URI_STRING/$CONTRIBPATH" @$URI_STRING:"sites/$URI_STRING" --delete --omit-dir-times --chmod=o+rx --perms --include-conf
   fi
 done
 
