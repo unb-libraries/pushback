@@ -67,6 +67,9 @@ $DRUSH rsync "$SCRIPT_DIR/files.htaccess" @$URI_STRING:%files/.htaccess --omit-d
 # Clear Cache
 $DRUSH cc all @$URI_STRING
 
+# Perform any database updates required
+$DRUSH updb @$URI_STRING
+
 # Ensure anonymous users do not get a registration form
 $DRUSH @$URI_STRING vset user_register 0
 
