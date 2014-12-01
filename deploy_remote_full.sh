@@ -59,7 +59,7 @@ cp -rp "$WORKSPACE/profiles" "$DOCROOT"
 
 # Copy Tree 
 cd "$DOCROOT"
-$DRUSH rsync @self @$URI_STRING --delete --omit-dir-times --chmod=o+rx --perms --include-conf --exclude=sites/default/files/
+$DRUSH rsync @self @$URI_STRING --delete --omit-dir-times --chmod=o+r --perms --include-conf --exclude=sites/default/files/
 
 # Copy .htaccess to files dir
 $DRUSH rsync "$SCRIPT_DIR/files.htaccess" @$URI_STRING:%files/.htaccess --omit-dir-times --chmod=og-w --perms --inplace
