@@ -55,10 +55,10 @@ $DRUSH @$URI_STRING audit_status
 $DRUSH @$URI_STRING audit_users
 
 # DrupalGeddon on server
-$DRUSH @$URI_STRING dl drupalgeddon
-$DRUSH @$URI_STRING cc drush
-$DRUSH @$URI_STRING cc all
-$DRUSH @$URI_STRING drupalgeddon-test
+# $DRUSH @$URI_STRING dl drupalgeddon
+# $DRUSH @$URI_STRING cc drush
+# $DRUSH @$URI_STRING cc all
+# $DRUSH @$URI_STRING drupalgeddon-test
 
 # Security-Review
 $DRUSH @$URI_STRING dl security_review
