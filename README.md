@@ -1,7 +1,7 @@
 # PushBack
-PushBack transports and constructs Drupal instances from metadata, deploying the provisioned site to dev or production instances. Post-deployment UI testing is supported via CasperJS.
+PushBack transports and constructs Drupal sites from metadata, deploying the provisioned site to dev or production instances. Post-deployment UI testing is supported via CasperJS.
 
-PushBack currently serves as the primary Drupal instance deployment and management tool at UNB Libraries.
+PushBack currently serves as the primary Drupal instance deployment and management tool at UNB Libraries. We currently use PushBack through Jenkins, although Jenkins is not required.
 
 ## Installation
 
