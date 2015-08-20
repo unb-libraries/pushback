@@ -49,7 +49,7 @@ $DRUSH status @$URI_STRING --quiet
 
 # Build Site
 cd "$WORKSPACE/make"
-$DRUSH make "$URI_SLUG.makefile" --contrib-destination="sites/all" --no-cache "$DOCROOT"
+$DRUSH make "$URI_SLUG.makefile" --contrib-destination="sites/all" "$DOCROOT"
 
 # Copy settings.php into tree before deployment
 cp -p "$WORKSPACE/settings/settings.php" "$DOCROOT/sites/default"
