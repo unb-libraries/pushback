@@ -97,5 +97,8 @@ then
   casperjs --no-colors --verbose test *.js
 fi
 
+# Clean up build dir.
+rm -rf "$DOCROOT"
+
 # Notify on Success
 /var/opt/github-drupal-deploy/sns_drupal_build.sh -b "$BUILD_USER" -t "$SNS_TOPIC" -u "$URI_STRING" -s "SUCCESS"
