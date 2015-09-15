@@ -98,6 +98,7 @@ then
 fi
 
 # Clean up build dir.
+cd "$WORKSPACE"
 rm -rf "$DOCROOT"
 
 # Notify on Success
