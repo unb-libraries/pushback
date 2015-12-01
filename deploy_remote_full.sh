@@ -90,12 +90,12 @@ $DRUSH @$URI_STRING vset page_compression 1
 $DRUSH @$URI_STRING vset error_level 0
 
 # Run Casper Tests
-if test -n "$(find $WORKSPACE/tests -maxdepth 1 -name '*.js' -print -quit)"
-then
-  cd "$WORKSPACE/tests"
-  find . -type f -print0 | xargs -0 sed -i "s|{{URI_TO_TEST}}|$URI_TO_TEST|g"
-  casperjs --no-colors --verbose test *.js
-fi
+# if test -n "$(find $WORKSPACE/tests -maxdepth 1 -name '*.js' -print -quit)"
+# then
+#   cd "$WORKSPACE/tests"
+#   find . -type f -print0 | xargs -0 sed -i "s|{{URI_TO_TEST}}|$URI_TO_TEST|g"
+#   casperjs --no-colors --verbose test *.js
+# fi
 
 # Clean up build dir.
 cd "$WORKSPACE"
