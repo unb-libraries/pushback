@@ -59,6 +59,7 @@ cp -rp "$WORKSPACE/profiles" "$DOCROOT"
 
 # Copy Tree 
 cd "$DOCROOT"
+rm -rf install.php
 $DRUSH rsync @self @$URI_STRING --delete --omit-dir-times --chmod=o+r --perms --include-conf --exclude=sites/default/files/
 
 # Copy .htaccess to files dir
