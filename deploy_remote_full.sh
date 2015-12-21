@@ -42,7 +42,7 @@ rm -rf "$DOCROOT"
 
 # Put drush in verbose mode, if requested, and include our script dir so we have
 # access to our custom drush commands.
-DRUSH="drush --yes --verbose --include=$WORKSPACE/drush-scripts --alias-path=$WORKSPACE/aliases"
+DRUSH="drush --nocolor --yes --verbose --include=$WORKSPACE/drush-scripts --alias-path=$WORKSPACE/aliases"
 
 # Check to make sure drush is working properly, and can access the target site deploy.
 $DRUSH status @$URI_STRING --quiet
