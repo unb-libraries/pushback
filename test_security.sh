@@ -29,6 +29,7 @@ COMMITID=`echo "$GIT_COMMIT" | cut -c1-8`
 URI_SLUG=`echo "$URI_STRING" | tr . _`
 SIXTEEN_CHAR_SLUG=`echo "${COMMITID}_${URI_SLUG}" | cut -c1-16`
 DOCROOT="$WORKSPACE/$SIXTEEN_CHAR_SLUG"
+COREVER=`grep core "make/$URI_SLUG.makefile"|awk '{print $2}'`
 
 if [[ -z $WORKSPACE ]]; then
   echo "This script must be executed from within a proper Jenkins job."
@@ -44,8 +45,12 @@ $DRUSH status @$URI_STRING --quiet
 
 # Site-Audit
 $DRUSH @$URI_STRING dl site_audit
-$DRUSH @$URI_STRING cc drush
-$DRUSH @$URI_STRING cc all
+if [[ "8.x" == "$COREVER" ]]; then
+  $DRUSH cache-rebuild @$URI_STRING
+else
+  $DRUSH @$URI_STRING cc drush
+  $DRUSH @$URI_STRING cc all
+fi
 $DRUSH @$URI_STRING audit_best_practices
 $DRUSH @$URI_STRING audit_content
 $DRUSH @$URI_STRING audit_cron
@@ -54,17 +59,15 @@ $DRUSH @$URI_STRING audit_security
 $DRUSH @$URI_STRING audit_status
 $DRUSH @$URI_STRING audit_users
 
-# DrupalGeddon on server
-# $DRUSH @$URI_STRING dl drupalgeddon
-# $DRUSH @$URI_STRING cc drush
-# $DRUSH @$URI_STRING cc all
-# $DRUSH @$URI_STRING drupalgeddon-test
-
 # Security-Review
 $DRUSH @$URI_STRING dl security_review
 $DRUSH @$URI_STRING en security_review
-$DRUSH @$URI_STRING cc drush
-$DRUSH @$URI_STRING cc all
+if [[ "8.x" == "$COREVER" ]]; then
+  $DRUSH cache-rebuild @$URI_STRING
+else
+  $DRUSH @$URI_STRING cc drush
+  $DRUSH @$URI_STRING cc all
+fi
 $DRUSH @$URI_STRING security-review
 
 # Test files directory for PHP files
