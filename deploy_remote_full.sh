@@ -31,6 +31,7 @@ COMMITID=`echo "$GIT_COMMIT" | cut -c1-8`
 URI_SLUG=`echo "$URI_STRING" | tr . _`
 SIXTEEN_CHAR_SLUG=`echo "${COMMITID}_${URI_SLUG}" | cut -c1-16`
 DOCROOT="$WORKSPACE/$SIXTEEN_CHAR_SLUG"
+COREVER=`grep core "make/$URI_SLUG.makefile"|awk '{print $2}'`
 
 if [[ -z $WORKSPACE ]]; then
   echo "This script must be executed from within a proper Jenkins job."
@@ -73,7 +74,12 @@ $DRUSH rsync @self @$URI_STRING --delete --omit-dir-times --chmod=o+r --perms --
 $DRUSH rsync "$SCRIPT_DIR/files.htaccess" @$URI_STRING:%files/.htaccess --omit-dir-times --chmod=og-w --perms --inplace
 
 # Clear Cache
-$DRUSH cc all @$URI_STRING
+
+if [[ "8.x" == "$COREVER" ]]; then
+  $DRUSH cache-rebuild @$URI_STRING
+else
+  $DRUSH cc all @$URI_STRING
+fi
 
 # Perform any database updates required
 $DRUSH @$URI_STRING updb
