@@ -50,7 +50,7 @@ $DRUSH status @$URI_STRING --quiet
 
 # Build Site
 cd "$WORKSPACE/make"
-$DRUSH make "$URI_SLUG.makefile" --contrib-destination="sites/all" "$DOCROOT"
+$DRUSH make "$URI_SLUG.makefile" "$DOCROOT"
 
 # Copy settings.php into tree before deployment
 if [[ -f "$WORKSPACE/settings/settings.php" ]]; then
