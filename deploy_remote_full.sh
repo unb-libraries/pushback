@@ -56,6 +56,11 @@ if [[ -f "$WORKSPACE/settings/settings.php" ]]; then
   cp -p "$WORKSPACE/settings/settings.php" "$DOCROOT/sites/default"
 fi
 
+# Copy drush config into tree before deployment
+if [[ -f "$WORKSPACE/settings/drushrc.php" ]]; then
+  cp -p "$WORKSPACE/settings/drushrc.php" "$DOCROOT/sites/default"
+fi
+
 # Copy profiles into tree before deployment
 cp -rp "$WORKSPACE/profiles" "$DOCROOT"
 
