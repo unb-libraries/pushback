@@ -73,35 +73,48 @@ $DRUSH rsync @self @$URI_STRING --delete --omit-dir-times --chmod=o+r --perms --
 # Copy .htaccess to files dir
 $DRUSH rsync "$SCRIPT_DIR/files.htaccess" @$URI_STRING:%files/.htaccess --omit-dir-times --chmod=og-w --perms --inplace
 
-# Clear Cache
-
+# Split tasks by drupal version
 if [[ "8.x" == "$COREVER" ]]; then
+  # Clear Cache
   $DRUSH cache-rebuild @$URI_STRING
+
+  # Perform any database updates required
+  $DRUSH @$URI_STRING updb
+
+  # Ensure anonymous users do not get a registration form
+  $DRUSH @$URI_STRING cset core.entity_form_mode.user.register status false
+
+  # Enable Preprocessing for JS/CSS
+  $DRUSH @$URI_STRING cset system.performance css.preprocess true
+  $DRUSH @$URI_STRING cset system.performance js.preprocess true
+
+  # Do not display errors to users
+  $DRUSH @$URI_STRING cset system.logging error_level hide
 else
+  # Clear Cache
   $DRUSH cc all @$URI_STRING
+  # Perform any database updates required
+  $DRUSH @$URI_STRING updb
+
+  # Ensure anonymous users do not get a registration form
+  $DRUSH @$URI_STRING vset user_register 0
+
+  # Enable Preprocessing for JS/CSS
+  $DRUSH @$URI_STRING vset preprocess_css 1
+  $DRUSH @$URI_STRING vset preprocess_js 1
+
+  # Enable anonmymous Caching
+  $DRUSH @$URI_STRING vset cache 1
+
+  # Cache blocks for Anonymous
+  $DRUSH @$URI_STRING vset block_cache 1
+
+  # Turn on page compression
+  $DRUSH @$URI_STRING vset page_compression 1
+
+  # Do not display errors to users
+  $DRUSH @$URI_STRING vset error_level 0
 fi
-
-# Perform any database updates required
-$DRUSH @$URI_STRING updb
-
-# Ensure anonymous users do not get a registration form
-$DRUSH @$URI_STRING vset user_register 0
-
-# Enable Preprocessing for JS/CSS
-$DRUSH @$URI_STRING vset preprocess_css 1
-$DRUSH @$URI_STRING vset preprocess_js 1
-
-# Enable anonmymous Caching
-$DRUSH @$URI_STRING vset cache 1
-
-# Cache blocks for Anonymous
-$DRUSH @$URI_STRING vset block_cache 1
-
-# Turn on page compression
-$DRUSH @$URI_STRING vset page_compression 1
-
-# Do not display errors to users
-$DRUSH @$URI_STRING vset error_level 0
 
 # Run Casper Tests
 # if test -n "$(find $WORKSPACE/tests -maxdepth 1 -name '*.js' -print -quit)"
