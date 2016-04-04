@@ -55,6 +55,8 @@ $DRUSH make "$URI_SLUG.makefile" "$DOCROOT"
 # Copy settings.php into tree before deployment
 if [[ -f "$WORKSPACE/settings/settings.php" ]]; then
   cp -p "$WORKSPACE/settings/settings.php" "$DOCROOT/sites/default"
+else
+  EXCLUDE="--exclude=sites/default/settings.php"
 fi
 
 # Copy drush config into tree before deployment
@@ -68,7 +70,7 @@ cp -rp "$WORKSPACE/profiles" "$DOCROOT"
 # Copy Tree 
 cd "$DOCROOT"
 rm -rf install.php
-$DRUSH rsync @self @$URI_STRING --delete --omit-dir-times --chmod=o+r --perms --include-conf --exclude=sites/default/files/
+$DRUSH rsync @self @$URI_STRING --delete --omit-dir-times --chmod=o+r --perms --include-conf --exclude=sites/default/files/ $EXCLUDE
 
 # Copy .htaccess to files dir
 $DRUSH rsync "$SCRIPT_DIR/files.htaccess" @$URI_STRING:%files/.htaccess --omit-dir-times --chmod=og-w --perms --inplace
