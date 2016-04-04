@@ -78,7 +78,7 @@ $DRUSH rsync "$SCRIPT_DIR/files.htaccess" @$URI_STRING:%files/.htaccess --omit-d
 # Split tasks by drupal version
 if [[ "8.x" == "$COREVER" ]]; then
   # Clear Cache
-  $DRUSH cache-rebuild @$URI_STRING
+  $DRUSH @$URI_STRING cache-rebuild
 
   # Perform any database updates required
   $DRUSH @$URI_STRING updb
@@ -94,7 +94,8 @@ if [[ "8.x" == "$COREVER" ]]; then
   $DRUSH @$URI_STRING cset system.logging error_level hide
 else
   # Clear Cache
-  $DRUSH cc all @$URI_STRING
+  $DRUSH @$URI_STRING cc all
+
   # Perform any database updates required
   $DRUSH @$URI_STRING updb
 
