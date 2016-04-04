@@ -46,7 +46,7 @@ $DRUSH status @$URI_STRING --quiet
 # Site-Audit
 $DRUSH @$URI_STRING dl site_audit
 if [[ "8.x" == "$COREVER" ]]; then
-  $DRUSH cache-rebuild @$URI_STRING
+  $DRUSH @$URI_STRING cache-rebuild
 else
   $DRUSH @$URI_STRING cc drush
   $DRUSH @$URI_STRING cc all
@@ -63,7 +63,7 @@ $DRUSH @$URI_STRING audit_users
 $DRUSH @$URI_STRING dl security_review
 $DRUSH @$URI_STRING en security_review
 if [[ "8.x" == "$COREVER" ]]; then
-  $DRUSH cache-rebuild @$URI_STRING
+  $DRUSH @$URI_STRING cache-rebuild
 else
   $DRUSH @$URI_STRING cc drush
   $DRUSH @$URI_STRING cc all
