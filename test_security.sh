@@ -47,17 +47,24 @@ $DRUSH status @$URI_STRING --quiet
 $DRUSH @$URI_STRING dl site_audit
 if [[ "8.x" == "$COREVER" ]]; then
   $DRUSH @$URI_STRING cache-rebuild
+  $DRUSH @$URI_STRING audit-best-practices
+  $DRUSH @$URI_STRING audit-content
+  $DRUSH @$URI_STRING audit-cron
+  $DRUSH @$URI_STRING audit-database
+  $DRUSH @$URI_STRING audit-security
+  $DRUSH @$URI_STRING audit-status
+  $DRUSH @$URI_STRING audit-users
 else
   $DRUSH @$URI_STRING cc drush
   $DRUSH @$URI_STRING cc all
+  $DRUSH @$URI_STRING audit_best_practices
+  $DRUSH @$URI_STRING audit_content
+  $DRUSH @$URI_STRING audit_cron
+  $DRUSH @$URI_STRING audit_database
+  $DRUSH @$URI_STRING audit_security
+  $DRUSH @$URI_STRING audit_status
+  $DRUSH @$URI_STRING audit_users
 fi
-$DRUSH @$URI_STRING audit_best_practices
-$DRUSH @$URI_STRING audit_content
-$DRUSH @$URI_STRING audit_cron
-$DRUSH @$URI_STRING audit_database
-$DRUSH @$URI_STRING audit_security
-$DRUSH @$URI_STRING audit_status
-$DRUSH @$URI_STRING audit_users
 
 # Security-Review
 $DRUSH @$URI_STRING dl security_review
