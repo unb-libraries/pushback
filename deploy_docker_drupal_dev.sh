@@ -12,7 +12,7 @@ REAL_PATH=`readlink -f "${BASH_SOURCE[0]}"`
 SCRIPT_DIR=`dirname "$REAL_PATH"`
 
 # Parse Options
-while getopts “:u:t:b:v:p:d:m:a:s:” OPTION; do
+while getopts “:u:t:b:v:p:d:m:a:s:n:e:” OPTION; do
   case $OPTION in
     u)
       URI_STRING=$OPTARG
@@ -40,6 +40,12 @@ while getopts “:u:t:b:v:p:d:m:a:s:” OPTION; do
       ;;
     s)
       DRUPAL_TESTING_TOOLS=$OPTARG
+      ;;
+    n)
+      NR_INSTALL_KEY=$OPTARG
+      ;;
+    e)
+      DEPLOY_ENV=$OPTARG
   esac
 done
 
@@ -119,9 +125,12 @@ docker run \
        -e DRUPAL_DB_PASSWORD=$DRUPAL_DB_PASSWORD \
        -e DRUPAL_ADMIN_ACCOUNT_PASS=$DRUPAL_ADMIN_ACCOUNT_PASS \
        -e DRUPAL_TESTING_TOOLS=$DRUPAL_TESTING_TOOLS \
+       -e DRUPAL_SITE_URI=$URI_STRING \
+       -e DEPLOY_ENV=$DEPLOY_ENV \
        -e MYSQL_HOSTNAME=$MYSQL_HOST_IP \
        -e MYSQL_PORT=3306 \
        -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
+       -e NR_INSTALL_KEY=$NR_INSTALL_KEY \
        -v $CONTAINER_ID:$VOLUME_MOUNT_POINT \
        -p $PORT_TO_DEPLOY:80 \
        unblibdev/$CONTAINER_ID
