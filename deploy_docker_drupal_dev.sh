@@ -118,6 +118,7 @@ cd $WORKSPACE
 docker pull unblibraries/drupal:$DRUPAL_IMAGE_TAG
 docker build --no-cache -t unblibdev/$CONTAINER_ID .
 
+HOST_HOSTNAME=$(hostname)
 docker run \
        --name $CONTAINER_ID \
        --detach \
@@ -127,6 +128,7 @@ docker run \
        -e DRUPAL_TESTING_TOOLS=$DRUPAL_TESTING_TOOLS \
        -e DRUPAL_SITE_URI=$URI_STRING \
        -e DEPLOY_ENV=$DEPLOY_ENV \
+       -e HOST_HOSTNAME=$HOST_HOSTNAME \
        -e MYSQL_HOSTNAME=$MYSQL_HOST_IP \
        -e MYSQL_PORT=3306 \
        -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
