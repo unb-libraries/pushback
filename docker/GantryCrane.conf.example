@@ -1,0 +1,14 @@
+[GantryCrane]
+docker_uri=unix://var/run/docker.sock
+
+[GantryCraneDrupalContainer]
+       -e DRUPAL_DB_PASSWORD=$DRUPAL_DB_PASSWORD \
+       -e DRUPAL_ADMIN_ACCOUNT_PASS=$DRUPAL_ADMIN_ACCOUNT_PASS \
+       -e DRUPAL_TESTING_TOOLS=$DRUPAL_TESTING_TOOLS \
+       -e DRUPAL_SITE_URI=$URI_STRING \
+       -e DEPLOY_ENV=$DEPLOY_ENV \
+       -e HOST_HOSTNAME=$HOST_HOSTNAME \
+       -e MYSQL_HOSTNAME=$MYSQL_HOST_IP \
+       -e MYSQL_PORT=3306 \
+       -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
+       -e NR_INSTALL_KEY=$NR_INSTALL_KEY \
