@@ -51,7 +51,6 @@ if [[ "8.x" == "$COREVER" ]]; then
   $DRUSH @$URI_STRING audit-content
   $DRUSH @$URI_STRING audit-cron
   $DRUSH @$URI_STRING audit-database
-  $DRUSH @$URI_STRING audit-security
   $DRUSH @$URI_STRING audit-status
   $DRUSH @$URI_STRING audit-users
 else
@@ -61,7 +60,6 @@ else
   $DRUSH @$URI_STRING audit_content
   $DRUSH @$URI_STRING audit_cron
   $DRUSH @$URI_STRING audit_database
-  $DRUSH @$URI_STRING audit_security
   $DRUSH @$URI_STRING audit_status
   $DRUSH @$URI_STRING audit_users
 fi
