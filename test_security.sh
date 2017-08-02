@@ -73,7 +73,7 @@ else
   $DRUSH @$URI_STRING cc drush
   $DRUSH @$URI_STRING cc all
 fi
-$DRUSH @$URI_STRING security-review
+$DRUSH @$URI_STRING security-review --skip=file_perms
 
 # Test files directory for PHP files
 
