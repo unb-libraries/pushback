@@ -44,7 +44,7 @@ DRUSH="drush --yes --include=$WORKSPACE/drush-scripts --alias-path=$WORKSPACE/al
 $DRUSH status @$URI_STRING --quiet
 
 # Site-Audit
-$DRUSH @$URI_STRING dl site_audit
+$DRUSH @$URI_STRING dl site_audit-7.x-1.x
 if [[ "8.x" == "$COREVER" ]]; then
   $DRUSH @$URI_STRING cache-rebuild
   $DRUSH @$URI_STRING audit-best-practices
